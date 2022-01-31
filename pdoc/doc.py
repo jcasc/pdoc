@@ -610,7 +610,7 @@ class Class(Namespace[type]):
         # Do a dance similar to
         # https://github.com/python/cpython/blob/9feae41c4f04ca27fd2c865807a5caeb50bf4fc4/Lib/inspect.py#L2359-L2376
         call = _safe_getattr(type(self.obj), "__call__", object.__call__)
-        if not isinstance(call, NonUserDefinedCallables):
+        if not isinstance(call, NonUserDefinedCallables) and _safe_getattr(self.obj, "_"+self.obj.__name__+"__pdoc_show_meta_call", False):
             # Does the metaclass define a custom __call__ method?
             unsorted["__init__"] = call
             if issubclass(self.obj, enum.Enum):
